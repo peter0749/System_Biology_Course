@@ -2,8 +2,8 @@ rm(list=ls(all=TRUE));
 data = read.csv("404410030_97ba06.csv");
 reduced_data = cbind(data[5:6], data[84:85]);
 M = log(reduced_data$F635_B635,base=2) - log(reduced_data$F532_B532,base=2)
-A = (log(reduced_data$F635_B635,base=2) + log(reduced_data$F532_B532,base=2))
-regl_lowess = lowess(x=A, y=M)
+A = (log(reduced_data$F635_B635,base=2) + log(reduced_data$F532_B532,base=2))/2
+regl_lowess = lowess(x=A, y=M,f = 0.2)
 F532_P = reduced_data$F532_B532 * 2^( regl_lowess[[2]] )
 #m635 = median(reduced_data$F635_B635);#Using median
 #m532 = median(reduced_data$F532_B532);
@@ -20,14 +20,14 @@ reduced_data = reduced_data[order(reduced_data$ratio_Cy5_Cy3),]
 logCy5_Cy3 = log(reduced_data$ratio_Cy5_Cy3)
 reduced_data = cbind(reduced_data, logCy5_Cy3)
 M_Cy5Cy3 = log(reduced_data$F635_B635,base=2) - log(reduced_data$F532_P,base=2)
-A_Cy5Cy3 = (log(reduced_data$F635_B635,base=2) + log(reduced_data$F532_P,base=2))
+A_Cy5Cy3 = (log(reduced_data$F635_B635,base=2) + log(reduced_data$F532_P,base=2))/2
 reduced_data = cbind(reduced_data, M_Cy5Cy3, A_Cy5Cy3)
 regl = lm(M_Cy5Cy3~A_Cy5Cy3)
 plot(y=M_Cy5Cy3, x=A_Cy5Cy3,col='black')
 par(new=TRUE)
 #plot(y=log(reduced_data$F635_B635/reduced_data$F532_B532,base=2),x=log(reduced_data$F635_B635*reduced_data$F532_B532,base=2), col='black', xlab="", ylab="")
 abline(regl,col='green')
-MA_lowess = lowess(y=M_Cy5Cy3, x=A_Cy5Cy3)
+MA_lowess = lowess(y=M_Cy5Cy3, x=A_Cy5Cy3,f=0.2)
 lines(x=MA_lowess[[1]],y=MA_lowess[[2]], col='red')
 plot(y=log(reduced_data$F635_B635,base=2),x=log(reduced_data$F532_P,base=2))
 regl_curve = lowess(y=log(reduced_data$F635_B635,base=2),x=log(reduced_data$F532_P,base=2))
