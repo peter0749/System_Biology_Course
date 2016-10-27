@@ -1,6 +1,22 @@
 rm(list=ls(all=TRUE));
-data = read.csv("404410030_97ba06.csv");
-reduced_data = cbind(data[5:6], data[84:85]);
+f2n = function(X){ as.numeric(levels(X)[X]) }
+THOLD=10000
+TLOW =1000
+testdata = read.csv("404410030_97ba06.csv");
+data = read.table('ArrayData.txt',header=FALSE,sep='\t',quote='',fill=TRUE,skip = 85)
+names(data) = sapply(data[1,],as.character)
+data = data[-1,]
+data = data[,c(4,5,9,12,18,21)]
+for(i in 3:6)
+{
+  data[,i] = f2n(data[,i])
+}
+data = cbind(data, data[,3]-data[,4], data[,5]-data[,6])
+names(data) = c(names(data)[1:6],"F635_B635","F532_B532")
+#reduced_data = cbind(data[5:6], data[84:85]);
+reduced_data = cbind(data[1:2], data[7:8])
+reduced_data = reduced_data[ reduced_data$F635_B635<THOLD & reduced_data$F532_B532<THOLD & reduced_data$F635_B635>TLOW & reduced_data$F532_B532>TLOW  ,]
+
 M = log(reduced_data$F635_B635,base=2) - log(reduced_data$F532_B532,base=2)
 A = (log(reduced_data$F635_B635,base=2) + log(reduced_data$F532_B532,base=2))/2
 regl_lowess = lowess(x=A, y=M)
