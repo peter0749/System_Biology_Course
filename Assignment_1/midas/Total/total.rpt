@@ -1,0 +1,56 @@
+************************************************************************
+*                       TIGR MIDAS Analysis Report                     *
+************************************************************************
+
+* MIDAS Version: 2.20
+* Process started at: Sun Oct 30 23:32:08 CST 2016
+* Process started at: Sun Oct 30 23:32:12 CST 2016
+* Project file: total.prj
+* Java Runtime Environment version: 1.8.0_101
+* Java Runtime Environment vendor: Oracle Corporation
+* Java Virtual Machine name: Java HotSpot(TM) 64-Bit Server VM
+* Java Virtual Machine version: 25.101-b13
+* Java Virtual Machine vendor: Oracle Corporation
+* Operating System name: Windows 7
+* Operating System version: 6.1
+* Operating System architecture: amd64
+* System MAX Memory: 716177408
+
+* Process Flow:
+    Read Single File => Intensity Filter => Total Intensity Normalization => Write Outputs    
+    
+* Parameter Settings:
+    Read Single File
+        - Input file name :                     C:\Users\KUJeng\Documents\System_Biology_AS1\problem1.mev
+        - One Bad Channel Tolerance Policy :    Stringent
+        - Use Channel 1 Flag :                  false
+        - Use Channel 2 Flag :                  false
+        - Channel 1 Background Checking :       false
+        - Channel 2 Background Checking :       false
+    Low Intensity Filter
+        - Cy3 Threshold :                       10000
+        - Cy5 Threshold :                       10000
+    Total Intensity Normalization
+        - Reference                             Cy3
+    Write Outputs
+        - Virtual Trim Option :                 Yes
+        - Output Trimmed Data Option :          Yes
+
+* Processing Results:
+    Read Single File
+        - experiment data file:                  problem1.mev
+        - total data count:                      12960
+        - post-preliminary filtering data count: 11906
+    Low Intensity Filter
+        - experiment data file:      problem1.mev
+        - post-filtering data count: 11597
+    Total Intensity Normalization
+        - experiment data file: problem1.mev
+        - processed data count: 11597
+    Write Outputs
+        - output data file:     problem1_MDS.mev
+        - output data count:    11597
+
+************************************************************************
+*                             End of Report                            *
+************************************************************************
