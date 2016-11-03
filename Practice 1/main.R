@@ -1,9 +1,9 @@
 rm(list=ls(all=TRUE));
 f2n = function(X){ as.numeric(levels(X)[X]) }
-THOLD=10000
-TLOW =1000
-testdata = read.csv("404410030_97ba06.csv");
-data = read.table('ArrayData.txt',header=FALSE,sep='\t',quote='',fill=TRUE,skip = 85)
+THOLD=65536
+TLOW =100
+#testdata = read.csv("404410030_97ba06.csv");
+data = read.table('problem1.gpr',header=FALSE,sep='\t',quote='',fill=TRUE,skip = 29)
 names(data) = sapply(data[1,],as.character)
 data = data[-1,]
 data = data[,c(4,5,9,12,18,21)]
@@ -21,6 +21,7 @@ M = log(reduced_data$F635_B635,base=2) - log(reduced_data$F532_B532,base=2)
 A = (log(reduced_data$F635_B635,base=2) + log(reduced_data$F532_B532,base=2))/2
 regl_lowess = lowess(x=A, y=M)
 F532_P = reduced_data$F532_B532 * 2^( regl_lowess[[2]] )
+#F532_P = reduced_data$F532_B532
 #m635 = median(reduced_data$F635_B635);#Using median
 #m532 = median(reduced_data$F532_B532);
 #m635 = mean(reduced_data$F635_B635);#Using mean
@@ -33,7 +34,7 @@ reduced_data = cbind(reduced_data, F532_P);
 ratio_Cy5_Cy3 = reduced_data$F635_B635 / reduced_data$F532_P;
 reduced_data = cbind(reduced_data, ratio_Cy5_Cy3);
 reduced_data = reduced_data[order(reduced_data$ratio_Cy5_Cy3),]
-logCy5_Cy3 = log(reduced_data$ratio_Cy5_Cy3)
+logCy5_Cy3 = log(reduced_data$ratio_Cy5_Cy3,base=2)
 reduced_data = cbind(reduced_data, logCy5_Cy3)
 M_Cy5Cy3 = log(reduced_data$F635_B635,base=2) - log(reduced_data$F532_P,base=2)
 A_Cy5Cy3 = (log(reduced_data$F635_B635,base=2) + log(reduced_data$F532_P,base=2))/2
@@ -55,5 +56,5 @@ abline(regl_line, col='green')
 lines(x=regl_curve[[1]], y=regl_curve[[2]],  col='red')
 
 plot(y=reduced_data$F635_B635, x=reduced_data$F532_P)
-hist(reduced_data$logCy5_Cy3,breaks=c(-500:500/100))
+hist(reduced_data$logCy5_Cy3,breaks=c(-1000:1000/100))
 #plot(reduced_data)
